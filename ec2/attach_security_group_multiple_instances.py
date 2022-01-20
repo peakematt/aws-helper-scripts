@@ -16,6 +16,8 @@ for reserv in response["Reservations"]:
 
 
 for instance in instances:
+    if instance["State"]["Name"] == "terminated":
+        continue
     instance_id = instance["InstanceId"]
     security_groups = instance['SecurityGroups']
     sg_ids = list()
