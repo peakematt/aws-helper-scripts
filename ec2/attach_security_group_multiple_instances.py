@@ -4,6 +4,7 @@ ec2_client = boto3.client('ec2')
 ec2_resource = boto3.resource("ec2")
 
 response = ec2_client.describe_instances()
+desired_region = "us-east-1"
 
 instances = list()
 
@@ -12,6 +13,9 @@ group_to_attach = "sg-078aa25a637c8189f"
 for reserv in response["Reservations"]:
     for instance in reserv["Instances"]:
         if instance["State"]["Name"] == "terminated":
+            continue
+
+        if desired_region not in instance["Placement"]["AvailabilityZone"]:
             continue
 
         i = ec2_resource.Instance(instance["InstanceId"])
