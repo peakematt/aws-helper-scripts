@@ -2,6 +2,7 @@ import boto3
 import json
 
 ec2_client = boto3.client('ec2')
+ec2_resource = boto3.resource("ec2")
 
 response = ec2_client.describe_instances()
 
@@ -29,6 +30,6 @@ for instance in instances:
 
     sg_ids.append(group_to_attach)
 
-    i = ec2_client.Instance(instance_id)
+    i = ec2_resource.Instance(instance_id)
 
     i.modify_attribute(Groups=sg_ids)
