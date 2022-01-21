@@ -1,5 +1,4 @@
 import boto3
-
 ec2_client = boto3.client('ec2')
 ec2_resource = boto3.resource("ec2")
 
@@ -8,7 +7,7 @@ desired_region = "us-east-1"
 
 instances = list()
 
-group_to_attach = "sg-078aa25a637c8189f"
+group_to_attach = "sg-somethin"
 
 for reserv in response["Reservations"]:
     for instance in reserv["Instances"]:
@@ -25,4 +24,10 @@ for reserv in response["Reservations"]:
 
         sg_ids.append(group_to_attach)
 
-        i.modify_attribute(Groups=sg_ids)
+        try:
+            i.modify_attribute(Groups=sg_ids)
+            print("Successfully updated instance: {}. YAY!".format(
+                instance['InstanceId']))
+        except:
+            print("skipping instance: {}. Encountered an error.".format(
+                instance['InstanceId']))
