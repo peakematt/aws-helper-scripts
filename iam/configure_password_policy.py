@@ -3,12 +3,7 @@ import json
 
 
 def main():
-    iam = boto3.client("iam")
-    current_policy_dict = iam.get_account_password_policy()
-
-    with open("previous_password_policy.json", "a+") as fd:
-        fd.write(json.dumps(current_policy_dict))
-
+    iam = boto3.resource("iam")
     pass_policy = iam.AccountPasswordPolicy()
 
     response = pass_policy.update(
